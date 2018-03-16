@@ -1,27 +1,34 @@
 # FivesecCh
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
+Tantangan Web Developer Untuk Membuat Aplikasi Web Bisa Digunakan Kurang Dari 5 Detik (https://medium.com/wwwid/tantangan-web-developer-untuk-membuat-aplikasi-web-bisa-digunakan-kurang-dari-5-detik-70bb7431741d)
 
-## Development server
+Project ini menggunakan Framework gemuk angular, yg harus bs diload kurang dari 5 detik.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Live Demo
 
-## Code scaffolding
+https://id-ch-angular.firebaseapp.com/
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## List perangkat 
 
-## Build
+- Angular 5.2.8
+- Angular CLI 1.6.6
+- Angular service worker
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Optimasi
 
-## Running unit tests
+- Optimasi kode: meminimalkan penggunaan ts/js dan css, termasuk tidak menggunakan component tambahan semacam material ataupun primeng
+- tanpa component lazy load: component lazy load yg dicoba malah menambah ukuran akhir js nya, untuk real app sebenarnya bagus
+- ngsw-config.json: prefect untuk gambar thumbnail dari https://cdn-images-1.medium.com, akan terasa ketika app di reload
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Peluang optimasi tambahan
 
-## Running end-to-end tests
+masih ada beberapa hal yg belum optimal, seperti ttl dari gambar, error log yg masih masuk di console (menurut audit chrome), dll.
+termasuk juga ukuran gambar yg tidak optimal untuk ditampilkan di first page. Mungkin juga component untuk category list dan feed-detail bisa ditempatkan di module yg berbeda untuk di lazy-load saja sehingga ukuran main-xxx-bundle.js bisa lebih kecil lagi..
+Konfigurasi di ngsw-config.json masih amburadul, ketika di build menjadi ngsw.json tidak semuanya masuk, berarti tidak semuanya konfigurasinya valid, kalo konfigurasi di file ini bisa dioptimalkan, mungkin bisa lebih baik lagi.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Yg sempat terpikirkan jg adalah bagaimana meload image/thumbnail tanpa perlu menunggu load API json nya selesai (mungkinkah?)
 
-## Further help
+## Hasil test
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+https://www.webpagetest.org/result/180315_W6_4cf90662c6d9147608a2592244d21373/
+
