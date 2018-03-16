@@ -6,12 +6,17 @@
     "resources": {
       "files": [
         "/favicon.ico",
-        "/index.html"
+        "/index.html",
+        "/assets/loading.svg",
+        "/assets/icons/placeholder.png"
       ],
       "versionedFiles": [
         "/*.bundle.css",
         "/*.bundle.js",
         "/*.chunk.js"
+      ],
+      "urls": [
+        "https://cdn-images-1.medium.com/**/**/*"
       ]
     }
   }, {
@@ -22,6 +27,63 @@
       "files": [
         "/assets/**"
       ]
+    }
+  }, {
+    "name": "images",
+    "installMode": "lazy",
+    "updateMode": "prefetch",
+    "resources": {
+      "files": [
+        "*.png",
+        "*.jpg",
+        "*.gif"
+      ]
+    },
+    "urls": [
+      {"url": 
+        { "https://cdn-images-1.medium.com/" : 
+          {
+            "match": "prefix"
+          } 
+        }
+      }
+    ]
+
+  }],
+  "dataGroups": [{
+    "name": "cachePolicy",
+    "resources": {
+      "files": [
+        "*.js"
+      ]
+    },
+    "urls": [
+      "**.js",
+      "*.css",
+      "**/*.bundle.css",
+      "**/*.bundle.js",
+      "**/*.chunk.js",
+      "**/assets/**/*",
+      "https://id-ch-angular.firebaseapp.com/",
+      "https://fonts.googleapis.com/css?family=Roboto:400,300",
+      "https://cdn-images-1.medium.com/**/**/*"
+    ],
+    "cacheConfig": {
+      "maxSize": 100,
+      "maxAge": "30d",
+      "timeout": "1m",
+      "strategy": "performance"
+    }
+  }, {
+    "name": "apiFreshness",
+    "urls": [ 
+      "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fwwwid"
+    ],
+    "cacheConfig": {
+      "maxSize": 100,
+      "maxAge": "3d",
+      "timeout": "1m",
+      "strategy": "freshness"
     }
   }]
 }

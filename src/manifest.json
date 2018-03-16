@@ -1,0 +1,20 @@
+{
+    "short_name": "WWWID chl",
+    "name": "Angular - Five Second WWWID Challenge",
+    "start_url": "/",
+
+    "theme_color": "#20b2aa",
+    "background_color": "#ffffff",
+
+    "display": "standalone",
+    "orientation": "portrait",
+
+    "icons": [
+        {
+            "src": "/assets/icons/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+
+}

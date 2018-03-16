@@ -1,0 +1,6 @@
+.container {
+    /* width: 30vw; */
+    display: inline-table;
+    padding: 5px;
+}
+
