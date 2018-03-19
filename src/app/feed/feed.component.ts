@@ -12,6 +12,7 @@ export class FeedComponent implements OnInit {
   content;
   limitedTitle;
   scTarget;
+  lazyImages;
 
   constructor(private router: Router) { }
 
@@ -25,6 +26,8 @@ export class FeedComponent implements OnInit {
     } else {
       this.limitedTitle = this.item.title;
     }
+
+    // this.loadImages();
   }
 
   detail() {

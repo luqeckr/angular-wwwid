@@ -4,7 +4,8 @@
       <div class="mat-card-avatar">
           <!-- <img defaultImage="/assets/icons/loading.svg" [lazyLoad]="item.thumbnail" 
           offset="100" [scrollTarget]="scTarget" [alt]="item.title" (click)="detail()"> -->
-        <img [src]="item.thumbnail" [alt]="item.title" (click)="detail()">
+        <!-- <img class="lazy-image" data-src="{{item.thumbnail}}" src="/assets/icons/placeholder.png" [alt]="item.title" (click)="detail()"> -->
+        <img class="lazy-image" src="/assets/icons/placeholder.png"  [longDesc]="item.smallthumb" [alt]="item.title" (click)="detail()">
       </div>
       <div class="mat-card-title">{{limitedTitle}}</div>
     </div>
