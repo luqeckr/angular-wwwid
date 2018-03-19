@@ -22,9 +22,7 @@ export class FeedDetailComponent implements OnInit, OnDestroy {
 
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id'];
-      console.log(this.data.ori);
       if (this.data.ori.length) {
-        console.log(this.data.ori);
         this.item = this.data.ori[this.id];
       } else {
         this.data.setFeed(this.id);
