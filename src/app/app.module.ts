@@ -13,14 +13,13 @@ import { DataService } from './data.service';
 
 import { environment } from '../environments/environment';
 import { FeedComponent } from './feed/feed.component';
-import { CategoryComponent } from './category/category.component';
 import { HomeComponent } from './home/home.component';
 import { FeedDetailComponent } from './feed-detail/feed-detail.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'feed/:id', component: FeedDetailComponent},
-  {path: 'cat/:id', component: CategoryComponent}
+  {path: 'cat/:id', component: HomeComponent}
 
 ];
 
@@ -28,7 +27,6 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     FeedComponent,
-    CategoryComponent,
     HomeComponent,
     FeedDetailComponent
   ],
