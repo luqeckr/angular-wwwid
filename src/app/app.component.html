@@ -5,6 +5,6 @@
       <a class="mat-button" routerLink="/" *ngIf="bbut" >&lt; KEMBALI</a>
     </div>
   </div>
-  <div id="container" class="container">
+  <div id="container" class="container" (scroll)="scrollHandler($event)">
     <router-outlet></router-outlet>
   </div>
