@@ -8,6 +8,9 @@ Project ini menggunakan Framework gemuk angular, yg harus bs diload kurang dari 
 
 https://id-ch-angular.firebaseapp.com/
 
+## Artikel Medium
+https://medium.com/angularid/tantangan-membuat-load-aplikasi-web-kurang-dari-5-detik-dengan-angular-5-3c38aa461b5c
+
 ## List perangkat 
 
 - Angular 5.2.8
@@ -30,5 +33,9 @@ Yg sempat terpikirkan jg adalah bagaimana meload image/thumbnail tanpa perlu men
 
 ## Hasil test
 
-https://www.webpagetest.org/result/180315_W6_4cf90662c6d9147608a2592244d21373/
+pertama:
+https:///www.webpagetest.org/result/180315_W6_4cf90662c6d9147608a2592244d21373/
+
+kedua:
+https://www.webpagetest.org/result/180319_W1_5ae6813da711ea64973a499a2b989883/
 
