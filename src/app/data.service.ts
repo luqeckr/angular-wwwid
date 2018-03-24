@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import 'rxjs/add/operator/filter';
 // import 'rxjs/add/operator/map';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { map, filter } from 'rxjs/operators';
 
 @Injectable()
 export class DataService {
@@ -15,7 +14,7 @@ export class DataService {
           'author': 'Luqe',
           'categories': ['loading'],
           'content': 'Loading..',
-          'description': '<p>Tunggu sebentar..</p>',
+          'description': 'Tunggu sebentar..',
           'pubDate': new Date(),
           'thumbnail': '/assets/icons/placeholder.png'
         }];
@@ -25,6 +24,7 @@ export class DataService {
   // items = [];
   ori = [];
   category = '';
+  categories = [];
   lazyImages;
 
   constructor(private http: HttpClient) { }
@@ -35,7 +35,7 @@ export class DataService {
 
   createSummary(text: string) {
     // console.log(text);
-    const climit = 160;
+    const climit = 260;
     text = text.replace(/<[^>]+>/g, '');
     if (text.length > climit) {
       text = text.substring(0, climit) + '...';
@@ -47,26 +47,31 @@ export class DataService {
     return this.http.get('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fwwwid')
   }
 
+  getCategories() {
+    let newCat:any[] = [];
+    this.categories.forEach((elem, pos, arr) => {
+      if (arr.indexOf(elem) == pos) {
+        newCat.push(elem);
+      } 
+    });
+    return newCat;
+  }
+
+  setCategories(cat) {
+    this.categories = [...this.categories, ...cat];
+  }
+
   description(desArr) {
     desArr['items'].map(items => {
       items.description = this.createSummary(items.description);
       items.smallthumb = 'https://res.cloudinary.com/dziesqzmn/image/fetch/c_fill,g_auto:face,h_60,w_60,fl_force_strip.progressive/f_webp/' + items.thumbnail;
+      this.setCategories(items.categories);
       return items;
     });
     return desArr;
   }
 
-  setNewRss(result) {
-    console.log(result);
-    this.ori = result['items'];
-    this.items = result['items'];
-    if (this.category.length) {
-      this.items = this.ori.filter(item => item.categories.indexOf(this.category) !== -1);
-    }
-    this.rssfeed.next(this.items);
-  }
-
-  setExistRss() {
+  setRss() {
     if (this.category.length) {
       this.items = this.ori.filter(item => item.categories.indexOf(this.category) !== -1);
     } else {
@@ -76,20 +81,22 @@ export class DataService {
   }
 
   fetchFeed() {
-    console.log(this.category);
-    // no data yet
     if (navigator.onLine) {
       if (!this.ori.length) {
-        console.log('no data yet');
+        // no data yet
         this.getAPI()
           .pipe(
             retry(3),
             map(result => this.description(result))
           )
-          .subscribe(result => this.setNewRss(result))
+          .subscribe(result => {
+            this.ori = result['items'];
+            this.setRss();
+          } 
+        )
       } else {
         // data exist
-        this.setExistRss();
+        this.setRss();
       }
     } else {
       this.offline()
@@ -123,7 +130,6 @@ export class DataService {
 
   setCategory(cat: string) {
     this.category = cat;
-    console.log('set to: ' + cat);
     this.fetchFeed();
   }
 
@@ -133,7 +139,6 @@ export class DataService {
     } 
     if (this.lazyImages) {
       this.lazyImages.forEach(img => {
-        // console.log(img.getAttribute('alt'));
         const position = img.getBoundingClientRect()
         if (this.isInViewport(position.y)) {
           const realSource = img.getAttribute('longDesc');
@@ -147,7 +152,6 @@ export class DataService {
   }
 
   isInViewport(yPostion) {
-    // console.log(yPostion, screen.availHeight);
     if (yPostion > 0 && yPostion < (screen.availHeight-100)) return true
     else return false
   }
