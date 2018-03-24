@@ -1,10 +1,15 @@
   <div class="toolbar" color="primary">
     <div class="toolbar-row">
-      <h1 class="headline">Angular WWWID</h1>
+      <h1 class="headline" *ngIf="!bbut">Angular WWWID</h1>
+      <a class="mat-button" routerLink="/" *ngIf="bbut" ><h2 class="headline">&lt; HOME</h2></a>
       <span class="spacer"></span>
-      <a class="mat-button" routerLink="/" *ngIf="bbut" >&lt; KEMBALI</a>
+      <a class="mat-button" (click)="toggleKat()">KATEGORI</a>
     </div>
   </div>
   <div id="container" class="container" (scroll)="scrollHandler($event)">
+    <div *ngIf="isKategori" class="kategori">
+      <span *ngFor="let kat of kats" (click)="gotoKat(kat)"> &nbsp;{{kat}}</span>
+      <p></p>
+    </div>
     <router-outlet></router-outlet>
   </div>

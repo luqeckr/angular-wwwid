@@ -75,3 +75,25 @@
 .mat-button:hover {
     background: cornflowerblue;
 }
+
+.kategori {
+    position: absolute;
+    top: 0px;
+    left: 5%;
+    right: 5%;
+    background: #fff;
+    z-index: 99;
+    padding: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+    color: blue;
+}
+
+.kategori>span {
+    color: blue;
+    cursor: pointer;
+    line-height: 32px;
+}
+
+.kategori>span:hover {
+    color: red;
+}

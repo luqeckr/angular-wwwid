@@ -12,18 +12,30 @@ export class AppComponent {
   title = 'app';
   items = [];
   item;
+  kats = [];
   bbut = false;
+  isKategori = false;
 
   constructor(private router: Router, private data: DataService) {
     router.events.filter(e => e instanceof NavigationEnd).subscribe( nav => {
-      console.log(nav);
       if (nav['url'] !== '/') { this.bbut = true; } else { this.bbut = false; }
     });
   }
   
   scrollHandler(event: Event) {
-    // console.log(event);
-    this.data.loadImages();
+    this.data.loadImages(); 
+  }
+
+  toggleKat() {
+    this.isKategori = !this.isKategori;
+    if (this.isKategori) {
+      this.kats = this.data.getCategories();
+    }
+  }
+
+  gotoKat(kat) {
+    this.router.navigate(['cat', kat]);
+    this.isKategori = false;
   }
 
 }
