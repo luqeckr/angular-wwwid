@@ -3,10 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
-// import { LazyLoadImageModule } from 'ng-lazyload-image';
-// import {MatToolbarModule} from '@angular/material/toolbar';
-// import {MatCardModule} from '@angular/material/card';
-// import {MatButtonModule} from '@angular/material/button';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
@@ -15,11 +11,13 @@ import { environment } from '../environments/environment';
 import { FeedComponent } from './feed/feed.component';
 import { HomeComponent } from './home/home.component';
 import { FeedDetailComponent } from './feed-detail/feed-detail.component';
+import { uhohComponent } from './uhoh.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'feed/:id', component: FeedDetailComponent},
-  {path: 'cat/:id', component: HomeComponent}
+  {path: 'cat/:id', component: HomeComponent},
+  {path: '**', pathMatch: 'full', component: uhohComponent}
 
 ];
 
@@ -28,16 +26,13 @@ const routes: Routes = [
     AppComponent,
     FeedComponent,
     HomeComponent,
-    FeedDetailComponent
+    FeedDetailComponent,
+    uhohComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot(routes),
     HttpClientModule,
-    // LazyLoadImageModule,
-    // MatToolbarModule,
-    // MatCardModule,
-    // MatButtonModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     RouterModule
   ],
