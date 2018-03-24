@@ -1,26 +1,14 @@
   <div class="mat-card">
     <div class="mat-card-header" (click)="detail()">
-      <!-- <div mat-card-avatar class="example-header-image"></div> -->
       <div class="mat-card-avatar">
-          <!-- <img defaultImage="/assets/icons/loading.svg" [lazyLoad]="item.thumbnail" 
-          offset="100" [scrollTarget]="scTarget" [alt]="item.title" (click)="detail()"> -->
-        <!-- <img class="lazy-image" data-src="{{item.thumbnail}}" src="/assets/icons/placeholder.png" [alt]="item.title" (click)="detail()"> -->
         <img class="lazy-image" src="/assets/icons/placeholder.png"  [longDesc]="item.smallthumb" [alt]="item.title" (click)="detail()">
       </div>
       <div class="mat-card-title">{{limitedTitle}}</div>
     </div>
     <div class="mat-card-subtitle">({{item.author}}) {{item.pubDate | date: 'dd/MM/yyy h:m'}}</div>
-    <!-- <div class="img-container"> -->
-      <!-- <img [src]="item.thumbnail" [alt]="item.title" (click)="detail()"> -->
-      <!-- <img defaultImage="/assets/icons/loading.svg" [lazyLoad]="item.thumbnail" 
-        offset="100" [scrollTarget]="scTarget" [alt]="item.title" (click)="detail()"> -->
-    <!-- </div> -->
+
     <div class="mat-card-content" (click)="detail()">
-      <p [innerHTML]="item.description"> 
+      <p>{{item.description}}
       </p>
-    </div>
-    <div class="mat-card-actions" >
-      <!-- <button mat-button *ngFor="let cat of item.categories" [routerLink]="(['/cat', cat])">{{cat}}</button> -->
-      tag: <span  *ngFor="let cat of item.categories"> &nbsp;<a [routerLink]="(['/cat', cat])">{{cat}}</a></span>
     </div>
   </div>
