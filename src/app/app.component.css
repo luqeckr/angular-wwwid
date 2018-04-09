@@ -70,6 +70,7 @@
     padding: 0 16px;
     border-radius: 2px;
     color: white;
+    background-color: navy;
 }
 
 .mat-button:hover {
@@ -77,14 +78,14 @@
 }
 
 .kategori {
-    position: absolute;
-    top: 0px;
+    position: fixed;
+    top: 100px;
     left: 5%;
     right: 5%;
     background: #fff;
     z-index: 99;
     padding: 20px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 4px 26px 0 rgba(0,0,0,0.8);
     color: blue;
 }
 
