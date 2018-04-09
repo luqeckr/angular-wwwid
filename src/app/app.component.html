@@ -7,6 +7,9 @@
     </div>
   </div>
   <div id="container" class="container" (scroll)="scrollHandler($event)">
+    <div *ngIf="newUpdate" class="kategori">
+      <span>{{updateMsg}} </span> &nbsp; <a class="mat-button" (click)="reload()">RELOAD</a>
+    </div>
     <div *ngIf="isKategori" class="kategori">
       <span *ngFor="let kat of kats" (click)="gotoKat(kat)"> &nbsp;{{kat}}</span>
       <p></p>
