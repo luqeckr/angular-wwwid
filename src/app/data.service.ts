@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import 'rxjs/add/operator/filter';
 // import 'rxjs/add/operator/map';
-import { catchError, retry, map } from 'rxjs/operators';
+import { retry } from 'rxjs/operators/retry';
+import { map } from 'rxjs/operators/map';
+import { tap } from 'rxjs/operators/tap';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -21,6 +23,7 @@ export class DataService {
   items = [...this.item, ...this.item, ...this.item, ...this.item];
   private rssfeed = new BehaviorSubject<any>(this.items);
   private singlefeed = new BehaviorSubject<any>(this.items);
+  scrolling = new BehaviorSubject('');
   // items = [];
   ori = [];
   category = '';
@@ -30,7 +33,7 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   offline() {
-    console.log('you\'re offline!');
+    window.alert('you\'re offline!');
   }
 
   createSummary(text: string) {
@@ -87,13 +90,13 @@ export class DataService {
         this.getAPI()
           .pipe(
             retry(3),
-            map(result => this.description(result))
+            map(result => this.description(result)),
+            tap(result => {
+              this.ori = result['items'];
+              this.setRss();
+            })
           )
-          .subscribe(result => {
-            this.ori = result['items'];
-            this.setRss();
-          } 
-        )
+          .subscribe()
       } else {
         // data exist
         this.setRss();
@@ -133,22 +136,8 @@ export class DataService {
     this.fetchFeed();
   }
 
-  loadImages(images = null) {
-    if (images) { 
-      this.lazyImages = images;
-    } 
-    if (this.lazyImages) {
-      this.lazyImages.forEach(img => {
-        const position = img.getBoundingClientRect()
-        if (this.isInViewport(position.y)) {
-          const realSource = img.getAttribute('longDesc');
-          if (realSource !== 'undefined' && realSource !== null) {
-            img.src = realSource
-            img.removeAttribute('longDesc')
-          }
-        }
-      });
-    }
+  emitScroll() {
+    this.scrolling.next('');
   }
 
   isInViewport(yPostion) {
@@ -156,4 +145,11 @@ export class DataService {
     else return false
   }
 
+  lazyImage(img) {
+    let position = img.getBoundingClientRect();
+    if (this.isInViewport(position.y)) {
+      return true;
+    }
+    return false;
+  }
 }
