@@ -1,37 +1,43 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../data.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.css']
 })
-export class FeedComponent implements OnInit {
+export class FeedComponent implements OnInit, OnDestroy {
+  currentImg = 'url("/assets/icons/placeholder.png")';
   @Input() item;
   @Input() i;
-  content;
   limitedTitle;
-  scTarget;
-  lazyImages;
+  @ViewChild('lazyImg') lazyImages: ElementRef;
+  scrollSub: Subscription;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private dataSvc: DataService) {
+   }
 
   ngOnInit() {
-    this.scTarget = document.getElementById('container');
-    const limit = 65;
-    const dots = this.item.title.length > limit ? '..' : '';
-    const limitTitle = this.item.title.substr(0, limit);
-    if (this.item.title.length > limit) {
-      this.limitedTitle = limitTitle.substr(0, Math.min(limitTitle.length, limitTitle.lastIndexOf(' '))) + dots;
-    } else {
-      this.limitedTitle = this.item.title;
-    }
+    let img = this.lazyImages.nativeElement;
+    this.scrollSub = this.dataSvc.scrolling.subscribe(event => {
+      if(this.item.smallthumb != undefined) {
+        if (this.dataSvc.lazyImage(img)) {
+          this.currentImg = 'url('+this.item.smallthumb+')';
+        }
 
-    // this.loadImages();
+      }
+    })
+  }
+
+  ngOnDestroy() {
+    this.scrollSub.unsubscribe();
   }
 
   detail() {
     this.router.navigate(['feed', this.i]);
   }
+
 
 }
