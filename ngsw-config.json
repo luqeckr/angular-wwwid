@@ -7,14 +7,13 @@
       "files": [
         "/favicon.ico",
         "/index.html",
-        "/assets/icons/placeholder.png"
-      ],
-      "versionedFiles": [
+        "/assets/icons/placeholder.png",
         "/*.bundle.css",
         "/*.bundle.js",
         "/*.chunk.js"
       ],
       "urls": [
+        "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fwwwid",
         "https://cdn-images-1.medium.com/**/**/*"
       ]
     }
@@ -40,7 +39,7 @@
     },
     "urls": [
       {"url": 
-        { "https://cdn-images-1.medium.com/" : 
+        { "https://res.cloudinary.com/dziesqzmn/image/" : 
           {
             "match": "prefix"
           } 
@@ -48,24 +47,25 @@
       }
     ]
 
-  }],
+  }, {
+    "name": "fonts",
+    "resources": {
+      "urls": [
+        "https://fonts.googleapis.com/**",
+        "https://fonts.gstatic.com/**"
+      ]
+    }
+  }
+  ],
   "dataGroups": [{
     "name": "cachePolicy",
     "resources": {
       "files": [
-        "*.js"
+        "/*.bundle.css"
       ]
     },
     "urls": [
-      "**.js",
-      "*.css",
-      "**/*.bundle.css",
-      "**/*.bundle.js",
-      "**/*.chunk.js",
-      "**/assets/**/*",
-      "https://id-ch-angular.firebaseapp.com/",
-      "https://fonts.googleapis.com/css?family=Roboto:400,300",
-      "https://cdn-images-1.medium.com/**/**/*"
+      "https://fonts.googleapis.com/css?family=Roboto:400,300"
     ],
     "cacheConfig": {
       "maxSize": 100,
@@ -81,7 +81,7 @@
     "cacheConfig": {
       "maxSize": 100,
       "maxAge": "3d",
-      "timeout": "1m",
+      "timeout": "10s",
       "strategy": "freshness"
     }
   }]
