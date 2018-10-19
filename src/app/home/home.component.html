@@ -1,3 +1,16 @@
-  <div class="card feed" *ngFor="let item of items; let i=index" >
-    <app-feed [item]="item" [i]="i"></app-feed>
-  </div>
+    <div class="card feed" *ngFor="let item of items; let i=index">
+      <div class="mat-card" >
+        <div class="mat-card-header" (click)="detail(i)">
+          <div class="mat-card-avatar lazyimg" #lazyImg [title]="item.smallthumb">
+            <!-- <img #lazyImg class="lazy-image" [src]="currentImg" [alt]="item.title" (click)="detail()"> -->
+          </div>
+          <div class="mat-card-title">{{item.title}}</div>
+        </div>
+        <div class="mat-card-subtitle">({{item.author}}) {{item.pubDate | date: 'dd/MM/yyy h:m'}}</div>
+    
+        <div class="mat-card-content" (click)="detail(i)">
+          <p >{{item.description}}
+          </p>
+        </div>
+      </div>
+    </div>

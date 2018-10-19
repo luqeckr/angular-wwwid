@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
@@ -8,10 +8,11 @@ import { AppComponent } from './app.component';
 import { DataService } from './data.service';
 
 import { environment } from '../environments/environment';
-import { FeedComponent } from './feed/feed.component';
+// import { FeedComponent } from './feed/feed.component';
 import { HomeComponent } from './home/home.component';
 // import { FeedDetailComponent } from './feed-detail/feed-detail.component';
 import { uhohComponent } from './uhoh.component';
+import { PreloadrssService } from './preloadrss.service';
 
 
 const routes: Routes = [
@@ -26,20 +27,24 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    FeedComponent,
+    // FeedComponent,
     HomeComponent,
     // FeedDetailComponent,
     uhohComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
+    // for universal **
+    // BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    // BrowserTransferStateModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     RouterModule
   ],
   providers: [
-    DataService
+    DataService,
+    // PreloadrssService
   ],
   bootstrap: [AppComponent]
 })

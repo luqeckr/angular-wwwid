@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import 'rxjs/add/operator/filter';
+
 import { DataService } from './data.service';
 import { SwUpdate } from '@angular/service-worker';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -17,30 +18,33 @@ export class AppComponent implements OnInit {
   bbut = false;
   isKategori = false;
   newUpdate = false;
-  updateMsg = '';
 
-  constructor(private router: Router, private data: DataService, private swUpdate: SwUpdate) {
-    router.events.filter(e => e instanceof NavigationEnd).subscribe( nav => {
+  constructor(
+    private router: Router, 
+    private data: DataService, 
+    private swUpdate: SwUpdate
+  ) {
+    router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe( nav => {
       if (nav['url'] !== '/') { this.bbut = true; } else { this.bbut = false; }
     });
-  }
 
+  }
+  
   ngOnInit() {
-    // this.swUpdate.checkForUpdate().then(a => {
-    //   console.log(a);
-    // }).catch(err => {
-    //   console.log(err);
-    // })
-    this.swUpdate.available.subscribe(event => {
-      // window.alert('[App] Update available: current version is '+ event.current.hash + ' available version is ' + event.available.hash);
-      // console.log(event);
-      this.newUpdate = true;
-      this.updateMsg = '[App] Versi Baru Tersedia';
-    })
+    this.data.getFeedList().subscribe();
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.checkForUpdate().then(result => {
+        console.log(result)
+      })
+      this.swUpdate.available.subscribe(event => {
+        this.newUpdate = true;
+      })
+    }
   }
   
   scrollHandler(event: Event) {
-    // this.data.loadImages(); 
     this.data.emitScroll();
   }
 

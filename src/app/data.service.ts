@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import 'rxjs/add/operator/filter';
-// import 'rxjs/add/operator/map';
-import { retry } from 'rxjs/operators/retry';
-import { map } from 'rxjs/operators/map';
-import { tap } from 'rxjs/operators/tap';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+
+import { retry ,  map ,  tap } from 'rxjs/operators';
+import { BehaviorSubject ,  Observable } from 'rxjs';
 
 @Injectable()
 export class DataService {
@@ -20,9 +16,11 @@ export class DataService {
           'pubDate': new Date(),
           'thumbnail': '/assets/icons/placeholder.png'
         }];
-  items = [...this.item, ...this.item, ...this.item, ...this.item];
-  private rssfeed = new BehaviorSubject<any>(this.items);
+  // items = [...this.item, ...this.item, ...this.item, ...this.item];
+  items = [];
+  rssfeed = new BehaviorSubject<any>(this.items);
   private singlefeed = new BehaviorSubject<any>(this.items);
+  private observer: IntersectionObserver;
   scrolling = new BehaviorSubject('');
   // items = [];
   ori = [];
@@ -39,6 +37,7 @@ export class DataService {
   createSummary(text: string) {
     // console.log(text);
     const climit = 260;
+    text = text.replace(/<figure[^>]*.*\/figure>/g,''); 
     text = text.replace(/<[^>]+>/g, '');
     if (text.length > climit) {
       text = text.substring(0, climit) + '...';
@@ -65,11 +64,15 @@ export class DataService {
   }
 
   description(desArr) {
-    desArr['items'].map(items => {
-      items.description = this.createSummary(items.description);
-      items.smallthumb = 'https://res.cloudinary.com/dziesqzmn/image/fetch/c_fill,g_auto:face,h_60,w_60,fl_force_strip.progressive/f_webp/' + items.thumbnail;
-      this.setCategories(items.categories);
-      return items;
+    desArr['items'].map(item => {
+      // item.content = null;
+      item.description = this.createSummary(item.description);
+      // item.thumbnail = item.thumbnail.replace(/\/max\/(.+)\//g, '/max/300/')
+      // item.smallthumb = 'https://res.cloudinary.com/dziesqzmn/image/fetch/c_fill,g_auto:face,h_80,w_80,fl_force_strip.progressive/f_webp/' + item.thumbnail;
+      // item.thumbnail = item.thumbnail.replace(/\/max\/(.+)\//g, '/max/350/')
+      item.smallthumb = item.thumbnail.replace(/\/max\/(.+)\//g, '/max/80/')
+      this.setCategories(item.categories);
+      return item;
     });
     return desArr;
   }
@@ -84,43 +87,48 @@ export class DataService {
   }
 
   fetchFeed() {
-    if (navigator.onLine) {
+    // if (navigator.onLine) {
       if (!this.ori.length) {
         // no data yet
         this.getAPI()
           .pipe(
             retry(3),
             map(result => this.description(result)),
-            tap(result => {
-              this.ori = result['items'];
-              this.setRss();
-            })
           )
-          .subscribe()
+          .subscribe(result => {
+            this.ori = result['items'];
+            if (result['status']) {
+              this.setRss();
+            }
+          })
       } else {
         // data exist
         this.setRss();
       }
-    } else {
-      this.offline()
-    }
+    // } else {
+    //   this.offline()
+    // }
   }
 
   setFeed(num: number) {
-    if (navigator.onLine) {
-      if (!this.ori.length) {
+    // if (navigator.onLine) {
+      if (!this.ori.length) {        
         this.getAPI()
-          .pipe(
-            retry(3),
-            map(result => result['items'][num])
+        .pipe(
+          retry(3),
+          map(result => {
+              return result['items'][num]
+            }) 
           )
-          .subscribe(result => this.singlefeed.next(result));
+          .subscribe(result => {
+            this.singlefeed.next(result)
+          })
       } else {
         this.singlefeed.next(this.ori['items'][num]);
       }
-    } else {
-      this.offline();
-    }
+    // } else {
+    //   this.offline();
+    // }
   }
 
   getFeed(): Observable<any> {
@@ -132,8 +140,11 @@ export class DataService {
   }
 
   setCategory(cat: string) {
-    this.category = cat;
-    this.fetchFeed();
+    console.log(this.category.length, cat.length)
+    if (this.category != cat || this.category.length == 0) {
+      this.category = cat;
+      this.fetchFeed();
+    }
   }
 
   emitScroll() {
@@ -152,4 +163,29 @@ export class DataService {
     }
     return false;
   }
+
+
+  createObserver() {
+    if (('IntersectionObserver' in window)) {  
+      this.observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.intersectionRatio > 0) {
+            this.observer.unobserve(entry.target);
+            // preload
+            this.loadImage(entry.target);
+            // entry.target['style'].backgroundImage = 'url('+entry.target['title']+')';
+          }
+        })
+      }, { rootMargin: '0px', threshold: 0.5 });
+    }
+  }
+
+  getObserver() {
+    return this.observer;
+  }
+
+  loadImage(img) {
+    img.style.backgroundImage = 'url('+img.title+')';
+  }
+
 }

@@ -1,6 +1,6 @@
   <div class="toolbar" color="primary">
     <div class="toolbar-row">
-      <h1 class="headline" *ngIf="!bbut">Angular WWWID</h1>
+      <h2 class="headline" *ngIf="!bbut">Angular WWWID</h2>
       <a class="mat-button" routerLink="/" *ngIf="bbut" ><h2 class="headline">&lt; HOME</h2></a>
       <span class="spacer"></span>
       <a class="mat-button" (click)="toggleKat()">KATEGORI</a>
@@ -8,11 +8,14 @@
   </div>
   <div id="container" class="container" (scroll)="scrollHandler($event)">
     <div *ngIf="newUpdate" class="kategori">
-      <span>{{updateMsg}} </span> &nbsp; <a class="mat-button" (click)="reload()">RELOAD</a>
+      <span>[App] Versi Baru Tersedia </span> &nbsp; <a class="mat-button" (click)="reload()">RELOAD</a>
     </div>
     <div *ngIf="isKategori" class="kategori">
       <span *ngFor="let kat of kats" (click)="gotoKat(kat)"> &nbsp;{{kat}}</span>
       <p></p>
     </div>
     <router-outlet></router-outlet>
+  </div>
+  <div class="footer">
+    @luqeckr
   </div>

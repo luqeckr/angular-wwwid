@@ -9,21 +9,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="/manifest.json">
-  <link rel="preconnect" href="https://api.rss2json.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" async defer>
+  <link href='https://ajax.googleapis.com' rel='preconnect' crossorigin>
+  <link href='https://fonts.gstatic.com' rel='preconnect' crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" defer>
+  <link rel="prefetch" as="fetch" crossorigin href="https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fwwwid">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#1648a3">
 </head>
 <body>
   <app-root>
-    <div style="background: #3f51b5; color: #fff; height: 56px; margin: 0;
-    top: 0; left: 0; box-shadow: 0 5px 10px #ccc; position: fixed; z-index: 99; width: 100%;">
-      <div style="display: flex; box-sizing: border-box; padding: 0 16px; flex-direction: row;
-        white-space: nowrap;">
-        <h1 style="margin-top: 10px; margin-bottom: 10px;">Angular WWWID</h1>
+    <style>
+      .toolbar {
+        font-family: Roboto;
+        font-display: swap;
+        background: #3f51b5;
+        color: #fff;
+        height: 56px;
+        margin: 0;
+        top: 0;
+        left: 0;
+        box-shadow: 0 5px 10px #ccc;
+        position: fixed;
+        z-index: 99;
+        width: 100%;
+      }
+      .toolbar-row {
+          display: flex;
+          box-sizing: border-box;
+          padding: 0 16px;
+          width: 100%;
+          flex-direction: row;
+          align-items: center;
+          white-space: nowrap;
+      }
+
+      .headline {
+          margin-top: 10px;
+          margin-bottom: 10px;
+      }
+      .mat-button {
+        box-sizing: border-box;
+        position: relative;
+        outline: 0;
+        border: none;
+        display: inline-block;
+        white-space: nowrap;
+        text-decoration: none;
+        vertical-align: baseline;
+        text-align: center;
+        margin: 0;
+        min-width: 88px;
+        line-height: 36px;
+        padding: 0 16px;
+        border-radius: 2px;
+        color: white;
+        background-color: navy;
+      }
+      .spacer {
+        flex: 1 1 auto;
+      }
+      .container {
+        top: 58px;
+        display: inline-block;
+        position: relative;
+        width: 100%;
+      }
+      .card {
+        max-width: 100%;
+        height: calc(100vh - 84px);
+        background: url(/assets/icons/placeholder.png);
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        display: block;
+        position: relative;
+        margin: 10px;
+        border-radius: 2px;
+      }
+    </style>
+    <div class="toolbar" color="primary">
+      <div class="toolbar-row">
+        <h2 class="headline">Angular WWWID</h2>
+        <span class="spacer"></span>
+        <a class="mat-button">KATEGORI</a>
       </div>
     </div>
-    <div >Loading..
+    <div class="container">
+      <div class="card"></div>
     </div>
   </app-root>
   <noscript>
@@ -31,5 +101,14 @@
           Sorry, but app is not available without javascript
       </h3>
   </noscript>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>
+  WebFont.load({
+      google: {
+        families: ['Roboto:300,400,500']
+      }
+    });
+  </script> -->
+
 </body>
 </html>
